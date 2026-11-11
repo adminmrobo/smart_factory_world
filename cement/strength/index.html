@@ -395,7 +395,20 @@ async function initThree() {
   // 사람·에이전트
   const person = (body, x, z) => { const g = new THREE.Group(); g.position.set(x, .2, z); scene.add(g); add(new THREE.CylinderGeometry(.26, .32, .9, 14), M(body), 0, .45, 0, g); add(new THREE.SphereGeometry(.26, 14, 12), M('#f1d9c2'), 0, 1.15, 0, g); return g; };
   const robot = (x, z) => { const g = new THREE.Group(); g.position.set(x, .2, z); scene.add(g); add(new THREE.BoxGeometry(.55, .6, .42), M('#c9d1d6'), 0, .5, 0, g); add(new THREE.BoxGeometry(.46, .36, .38), M('#aab4ba'), 0, 1.0, 0, g); add(new THREE.SphereGeometry(.08, 8, 6), M('#2bb3a8', { emissive: '#2bb3a8', emissiveIntensity: .8 }), 0, 1.45, 0, g); const r = new THREE.Mesh(new THREE.TorusGeometry(.5, .05, 6, 28), M('#2bb3a8', { emissive: '#2bb3a8', emissiveIntensity: .5 })); r.rotation.x = Math.PI / 2; r.position.y = .06; g.add(r); return g; };
-  robot(-12, -11); person('#e8a33d', 15.6, -4.2); person('#f4f4f4', 18.2, 9.4);
+  // --- 연구실 식구 3D 모델 (fruitfly-lab-expressions/chars3d/lab3d.js) — 못 불러오면 예전 원기둥 표시
+  const LAB3D_URL = 'https://adminmrobo.github.io/fruitfly-lab-expressions/chars3d/lab3d.js';
+  let lab = null;
+  try { lab = (await import(LAB3D_URL)).createLab3D(THREE, { outline: true, shadow: true }); } catch (e) { console.warn('lab3d 모델을 불러오지 못해 기본 표시로 그립니다', e); }
+  const labActors = [];
+  const labFig = (key, x, z, base, ring) => {   // 공장 축척 ×1.75, 카메라(+x,+z) 쪽을 봄
+    const g = new THREE.Group(); g.position.set(x, base, z); scene.add(g);
+    const m = lab.build(key, { unit: 1.75 }); m.rotation.y = Math.PI / 4; g.add(m); labActors.push(m);
+    if (ring) { const r = new THREE.Mesh(new THREE.TorusGeometry(.62, .05, 6, 28), M(ring, { emissive: ring, emissiveIntensity: .5 })); r.rotation.x = Math.PI / 2; r.position.y = .06; g.add(r); }
+    g.userData.top = base + 1.75 * lab.ROSTER.find(r => r.key === key).h;
+    return g;
+  };
+  robot(-12, -11);
+  if (lab) { labFig('fruitfly', 15.6, -4.2, .2); labFig('doctor', 18.2, 9.4, .2); } else { person('#e8a33d', 15.6, -4.2); person('#f4f4f4', 18.2, 9.4); }
   // 시편·기둥 (인스턴스)
   const NMAX = 520;
   const cubes = new THREE.InstancedMesh(new THREE.BoxGeometry(.42, .42, .42), new THREE.MeshStandardMaterial({ roughness: .6 }), NMAX);
@@ -419,7 +432,7 @@ async function initThree() {
   mkLabel('zone hot', '<b>7일 시험 문</b><span class="s">누수 모드의 예측은 여기서부터</span>', [gx, 4.6, 10]);
   mkLabel('zone', '<b>28일 압축 시험</b><span class="s">정답이 나오는 곳</span>', [15.6, 5.8, 0]);
   mkLabel('zone', '<b>출하</b>', [21, 5.2, -5.5]); mkLabel('zone', '<b>보류</b>', [21, 2.6, 5.5]);
-  mkLabel('agent', '품질예측 에이전트 · 머신러닝', [-12, 2.2, -11], false); mkLabel('person', '초파리 연구원 · 시험실', [15.6, 1.9, -4.2], false); mkLabel('person', '박사 · 공장장', [18.2, 1.9, 9.4], false);
+  mkLabel('agent', '품질예측 에이전트 · 머신러닝', [-12, 2.2, -11], false); mkLabel('person', '초파리 연구원 · 시험실', [15.6, lab ? 2.35 : 1.9, -4.2], false); mkLabel('person', '박사 · 공장장', [18.2, lab ? 2.35 : 1.9, 9.4], false);
   const specL = mkLabel('zone', '<b>규격 42.5</b>', [X1 + .3, H(SPEC), -10]); specL.style.setProperty('--c', '#3cc98c');
   const thrL = mkLabel('zone', '<b>출하 기준</b>', [X1 + .3, H(thr()), 10]); thrL.style.setProperty('--c', '#e8a33d');
   const v = new THREE.Vector3();
@@ -433,6 +446,7 @@ async function initThree() {
   let ramT = 0;
   return {
     frame(dt, t) {
+      labActors.forEach(m => m.userData.update(performance.now() / 1000));
       specPlane.position.y = H(SPEC) + .62; thrPlane.position.y = H(thr()) + .62;
       specL.textContent = ''; specL.innerHTML = '<b>규격 42.5</b>'; thrL.innerHTML = `<b>출하 기준 ${fmtN(thr(), 1)}</b>`;
       labels.find(o => o.el === specL).pos.y = H(SPEC) + .7; labels.find(o => o.el === thrL).pos.y = H(thr()) + .7;

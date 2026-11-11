@@ -553,8 +553,21 @@ async function initThree() {
   const AGPOS = { mix_agent: [-13.5, 2.2], abacus_bot: [-11.6, 2.4], softsensor_agent: [-3.8, 2.4], energy_agent: [-1.8, 2.5], risk_agent: [-11.2, -6.2], env_agent: [-4.6, -5.6], vision_agent: [13.8, -9.6], report_agent: [-15.2, -6.2] };
   const PEPOS = { doctor: [-12.6, -6.2], haru: [-5.6, 2.4], fruitfly: [9.6, -6.4] };
   const PECOL = { doctor: '#f4f4f4', haru: '#2bb3a8', fruitfly: '#e8a33d' };
-  W.agents.forEach(a => { const [x, z] = AGPOS[a.id] || [0, 0]; const g = robot(a.family, x, z, !!a.status); figs.push({ kind: 'agent', id: a.id, g, a }); });
-  W.people.forEach(p => { const [x, z] = PEPOS[p.id]; const g = person(PECOL[p.id], x, z); figs.push({ kind: 'person', id: p.id, g, p }); });
+  // --- 연구실 식구 3D 모델 (fruitfly-lab-expressions/chars3d/lab3d.js) — 못 불러오면 예전 원기둥 표시
+  const LAB3D_URL = 'https://adminmrobo.github.io/fruitfly-lab-expressions/chars3d/lab3d.js';
+  let lab = null;
+  try { lab = (await import(LAB3D_URL)).createLab3D(THREE, { outline: true, shadow: true }); } catch (e) { console.warn('lab3d 모델을 불러오지 못해 기본 표시로 그립니다', e); }
+  const labActors = [];
+  const labFig = (key, x, z, base, ring) => {   // 공장 축척 ×1.75, 카메라(+x,+z) 쪽을 봄
+    const g = new THREE.Group(); g.position.set(x, base, z); scene.add(g);
+    const m = lab.build(key, { unit: 1.75 }); m.rotation.y = Math.PI / 4; g.add(m); labActors.push(m);
+    if (ring) { const r = new THREE.Mesh(new THREE.TorusGeometry(.62, .05, 6, 28), M(ring, { emissive: ring, emissiveIntensity: .5 })); r.rotation.x = Math.PI / 2; r.position.y = .06; g.add(r); }
+    g.userData.top = base + 1.75 * lab.ROSTER.find(r => r.key === key).h;
+    return g;
+  };
+  const LABKEY = { doctor: 'doctor', haru: 'haru', fruitfly: 'fruitfly', abacus_bot: 'jupanbot' };
+  W.agents.forEach(a => { const [x, z] = AGPOS[a.id] || [0, 0]; const g = lab && LABKEY[a.id] ? labFig(LABKEY[a.id], x, z, .4, FAM[a.family]) : robot(a.family, x, z, !!a.status); figs.push({ kind: 'agent', id: a.id, g, a }); });
+  W.people.forEach(p => { const [x, z] = PEPOS[p.id]; const g = lab && LABKEY[p.id] ? labFig(LABKEY[p.id], x, z, .4) : person(PECOL[p.id], x, z); figs.push({ kind: 'person', id: p.id, g, p }); });
 
   // --- 이벤트 펄스
   const pulses = [];
@@ -575,8 +588,9 @@ async function initThree() {
   const famName = f => W.families[f]?.name || f;
   figs.forEach(f => {
     const p = f.g.position;
-    if (f.kind === 'agent') mkLabel('agent' + (f.a.status ? ' dim' : ''), `${f.a.name} · ${famName(f.a.family)}${f.a.status ? ' · ' + f.a.status.replace(' 준비 중', '') : ''}`, [p.x, 2.25, p.z]);
-    else mkLabel('person', `${f.p.name} · ${f.p.role}`, [p.x, 2.1, p.z]);
+    const ty = f.g.userData.top ? f.g.userData.top + .35 : null;
+    if (f.kind === 'agent') mkLabel('agent' + (f.a.status ? ' dim' : ''), `${f.a.name} · ${famName(f.a.family)}${f.a.status ? ' · ' + f.a.status.replace(' 준비 중', '') : ''}`, [p.x, ty || 2.25, p.z]);
+    else mkLabel('person', `${f.p.name} · ${f.p.role}`, [p.x, ty || 2.1, p.z]);
   });
   const lk = () => document.getElementById('lk'), ll = () => document.getElementById('ll');
   const v = new THREE.Vector3();
@@ -633,6 +647,7 @@ async function initThree() {
       // 라벨 값
       const a = lk(); if (a) a.textContent = `${fmtN(temp, 1)}°C · ${STNAME[state]} · 유효 ${fmtN(EFF.kiln, 1)} t/h`;
       const b2 = ll(); if (b2) b2.textContent = lq ? `품질 ${fmtN(lq.q, 1)}점 · ${fmtT(lq.m)}` : '품질 대기';
+      labActors.forEach(m => m.userData.update(performance.now() / 1000));
       controls.update(); renderer.render(scene, cam); placeLabels();
     },
     pulse,

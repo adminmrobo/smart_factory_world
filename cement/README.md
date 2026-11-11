@@ -84,6 +84,9 @@
 
 에이전트 8종의 색은 AI 계열입니다 — 규칙 기반(MD-1) · 머신러닝(MD-2) · 딥러닝(MD-3) · 생성형 AI(MD-4). 에이전트는 제안만 하고, 적용·승인은 `cannot`에 묶여 있습니다.
 
+## 연구실 식구 3D 모델
+박사·조수(하루)·초파리 연구원·주판봇은 원기둥 표시 대신 [fruitfly-lab-expressions](https://github.com/adminmrobo/fruitfly-lab-expressions)의 3D 모델(`chars3d/lab3d.js`)로 그립니다 — 공장 축척 ×1.75, 카메라 쪽(+x, +z)을 봄. 주판봇은 규칙 기반 에이전트 고리(회색)를 그대로 둡니다. 모듈을 불러오지 못하면 예전 원기둥 표시로 그립니다. 설정 화면: [3D 캐릭터 설정](https://adminmrobo.github.io/fruitfly-lab-expressions/characters3d.html) (공장 축척 보기 포함).
+
 ## 규칙 (하네스 관문)
 
 | 규칙 | 내용 | 근거 |
