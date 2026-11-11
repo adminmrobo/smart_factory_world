@@ -2,7 +2,7 @@
   "meta": {
     "id": "cement-factory-world",
     "title": "시멘트 공장 World — AI를 활용한 시멘트 공정 최적화",
-    "version": "0.2",
+    "version": "0.3",
     "author": "안상선 ((주)M-Robo 대표) · Ahn Sangsun",
     "note": "교육용 가상 공장. 데이터·단가·지연(37분)은 수업용 가상값이며 실제 공장 수치가 아니다.",
     "tag_rule": "강의 슬라이드의 꼬리표를 그대로 쓴다 — '🙋 사람 · 판단'은 human 레이어, '🤖 AI · 예측/탐색/해설/준비'는 agent 레이어",
@@ -37,11 +37,11 @@
       "signals": {
         "capacity_tph": 230,
         "uptime_pct": 92,
-        "wip_t": 1800,
+        "wip_t": 300,
         "defect_pct": 0.3,
         "changeover_min": 25
       },
-      "signal_note": "원료 사일로 재고(wip_t)는 가마 앞에서 쌓인다 — 병목 직전 신호"
+      "signal_note": "앞 재고 = 원료 야적장."
     },
     {
       "id": "kiln",
@@ -69,13 +69,13 @@
       },
       "signals": {
         "capacity_tph": 170,
-        "uptime_pct": 86,
-        "wip_t": 420,
+        "uptime_pct": 94.6,
+        "wip_t": 1800,
         "defect_pct": 1.2,
         "changeover_min": 0
       },
       "bottleneck": true,
-      "signal_note": "유효 처리량 170×0.86=146 t/h로 가장 낮다. 정지 2회(130분)·기동 2회(105분)가 가동률을 깎는다."
+      "signal_note": "가동률 94.6%는 ch08 데이터의 운전 기록에서 계산(3일 4,320분 중 정지 130분·기동 105분 제외). 유효 처리량 170×0.946=160.8 t/h로 가장 낮고, 앞(원료 사일로)에 재고 1,800 t가 쌓인다."
     },
     {
       "id": "cooler",
@@ -88,10 +88,11 @@
       "signals": {
         "capacity_tph": 190,
         "uptime_pct": 95,
-        "wip_t": 150,
+        "wip_t": 60,
         "defect_pct": 0.2,
         "changeover_min": 0
-      }
+      },
+      "signal_note": "앞 재고 = 가마 출구 클링커."
     },
     {
       "id": "cement_mill",
@@ -119,12 +120,12 @@
       },
       "signals": {
         "capacity_tph": 210,
-        "uptime_pct": 84,
-        "wip_t": 260,
+        "uptime_pct": 82,
+        "wip_t": 650,
         "defect_pct": 0.5,
         "changeover_min": 40
       },
-      "signal_note": "품종(슬래그 비율) 교체 때 멈춘다 — 교체시간은 직접 단서가 아닌 '함께 볼 변수'"
+      "signal_note": "가동률 82%로 가장 낮다 — 품종(슬래그 비율) 교체 40분이 잦아 바빠 보이지만, 유효 처리량 172.2 t/h는 가마보다 높다. 앞 재고 = 클링커 저장."
     },
     {
       "id": "lab",
@@ -184,8 +185,10 @@
         "uptime_pct": 90,
         "wip_t": 5000,
         "defect_pct": 0.0,
-        "changeover_min": 10
-      }
+        "changeover_min": 10,
+        "buffer": true
+      },
+      "signal_note": "앞 재고 5,000 t는 완제품 사일로 — 의도적으로 쌓아 두는 완충 구간이라 병목 신호로 읽지 않는다."
     },
     {
       "id": "control",
@@ -201,13 +204,21 @@
   ],
   "bottleneck_rule": {
     "source": "울산 병목 진단 실습 (5신호 · TOC 5단계)",
-    "basis": "클링커 환산 t/h, 교육용 가상값",
+    "basis": "클링커 환산 t/h, 교육용 가상값. 가마 가동률만 ch08 데이터에서 계산",
+    "wip_meaning": "wip_t = 그 구역 바로 앞에 쌓인 재고",
     "effective_capacity": "capacity_tph × uptime_pct / 100",
-    "verdict": "유효 처리량 최소 + 가동률 낮음 + 직전 WIP 높음이 한 구역에 겹치면 병목",
+    "stars": {
+      "effective": "유효 처리량 최소",
+      "uptime": "가동률이 나머지 평균보다 10%p 이상 낮음",
+      "wip": "바로 앞 재고 최다(완충 구간 제외)"
+    },
+    "verdict": "세 신호가 한 구역에 겹치면 병목 확정, 두 개면 유력 후보. 불량률·교체시간은 함께 볼 변수",
     "toc_link": {
       "identify": "8주 정지·기동 점검",
-      "exploit": "11주 최적 운전점",
-      "elevate": "12주 대체연료 상충(확인 카드 B: 대체 45% → 생산량 1~15% 감소)"
+      "exploit": "11주 최적 운전점 — 정지 줄이기",
+      "subordinate": "원료 공급을 가마 속도에 맞춤",
+      "elevate": "12주 대체연료 상충(확인 카드 B)·증설",
+      "repeat": "병목이 옮겨 가면 다시 찾기"
     }
   },
   "datasets": {
