@@ -13,6 +13,7 @@
 | 업종 | 폴더 | 상태 | 연결 강의 |
 |---|---|---|---|
 | 시멘트 | [`cement/`](cement/) | v0.4 — 탭 ① 공장 · ② 병목 신호판 · ③ 결정 기록 | [AI를 활용한 시멘트 공정 최적화](https://adminmrobo.github.io/AI_for_cement_produce/) (15주) · AI 활용 제조현장 AX 실무 전문강사 양성과정 |
+| 시멘트 · 28일 타임머신 | [`cement/strength/`](cement/strength/) | v0.1 — 생산일 예측 → 28일 압축 시험 확인 · 믿어도 되나 · SHAP | [ch05 시멘트 품질, AI로 미리 본다](https://adminmrobo.github.io/AI_for_cement_produce/ch05_explainable_ai_importance/) |
 
 다른 업종(자동차부품 · 조선기자재 · 석유화학 · 비철금속 · 이차전지소재 · 플랜트기계)은 같은 틀(`world.json` + 3D)로 추가할 수 있습니다.
 
