@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>스마트 팩토리 World</title>
+<meta name="description" content="공장 하나를 World(구역·데이터·AI 에이전트·사람·규칙)로 정의하고 3D 공장·동적 대시보드·강의 해설을 만든다. 교육용 가상 공장.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#0c1a20;--bg2:#12252d;--line:#24404a;--ink:#e8f1f2;--mute:#8fa9b0;--teal:#2bb3a8;--amber:#e8a33d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6}
+.wrap{max-width:920px;margin:0 auto;padding:40px 20px 56px}
+h1{font-size:30px;margin:0 0 8px;letter-spacing:-.5px}
+.lead{color:#c9dadd;font-size:16px;margin:0 0 6px}
+.by{color:var(--mute);font-size:13px;margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{display:block;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+a.card:hover{border-color:var(--teal);transform:translateY(-2px)}
+.card .tag{font-size:11px;font-weight:700;border-radius:99px;padding:2px 9px;display:inline-block}
+.card .on{background:rgba(43,179,168,.18);color:var(--teal)}
+.card .off{background:rgba(143,169,176,.14);color:var(--mute)}
+.card h2{font-size:18px;margin:8px 0 4px}
+.card p{margin:0;color:#c9dadd;font-size:13px}
+.card.soon{opacity:.6}
+.flow{display:flex;flex-wrap:wrap;gap:6px;margin:30px 0 8px;font-size:13px}
+.flow span{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:5px 10px}
+.flow b{color:var(--amber)}
+h3{font-size:15px;margin:28px 0 8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td{padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{color:var(--mute);white-space:nowrap}
+footer{color:var(--mute);font-size:12px;margin-top:36px}
+a{color:#7fd6cd}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>스마트 팩토리 World</h1>
+  <p class="lead">공장 하나를 구역 · 데이터 · AI 에이전트 · 사람 · 규칙으로 정의하고, 그 위에서 AI가 제안하고 사람이 승인하는 흐름을 3D로 봅니다.</p>
+  <div class="by">글 · 안상선 ((주)M-Robo 대표) · 모든 공장은 교육용 가상 공장입니다</div>
+
+  <div class="grid">
+    <a class="card" href="cement/">
+      <span class="tag on">v0.2 · 공개</span>
+      <h2>시멘트 공장</h2>
+      <p>가마의 37분 지연, 정지와 재가동, 소프트센서 예측, 승인 기록을 재생합니다. 강의 「AI를 활용한 시멘트 공정 최적화」와 연결.</p>
+    </a>
+    <div class="card soon">
+      <span class="tag off">준비 중</span>
+      <h2>다른 업종</h2>
+      <p>자동차부품 · 조선기자재 · 석유화학 · 비철금속 · 이차전지소재 · 플랜트기계 — 같은 틀로 추가합니다.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <span>🤖 AI 에이전트 <b>제안</b></span><span>→</span><span>규칙 <b>관문</b> (통과 · 차단)</span><span>→</span><span>🙋 사람 <b>승인</b></span><span>→</span><span>World에 <b>기록</b></span>
+  </div>
+
+  <h3>World 하나의 구성</h3>
+  <table>
+    <tr><td>구역</td><td>공정 단계마다 병목 5신호 — 처리 능력 · 가동률 · 재공재고 · 불량률 · 교체시간</td></tr>
+    <tr><td>데이터</td><td>강의 실습 데이터의 열을 구역에 연결</td></tr>
+    <tr><td>AI 에이전트</td><td>규칙 · 머신러닝 · 딥러닝 · 생성형 AI — 할 수 있는 일과 막힌 일이 정해져 있음</td></tr>
+    <tr><td>사람</td><td>결정 의자 — 누가 무엇을 승인하는가</td></tr>
+    <tr><td>규칙</td><td>예: 단가표는 사람만 고친다 · AI의 답은 제안이다 · 미래 정보 금지</td></tr>
+  </table>
+
+  <footer>
+    저장소 <a href="https://github.com/adminmrobo/smart_factory_world">adminmrobo/smart_factory_world</a> · 캐릭터 이름·설정 © 안상선. 실제 기업·공장 수치가 아닙니다.
+  </footer>
+</div>
+</body>
+</html>
