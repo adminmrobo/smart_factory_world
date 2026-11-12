@@ -1,0 +1,13 @@
+{
+  "series_ko": "스마트 팩토리 World",
+  "title_ko": "스마트 팩토리 World — 업종별 3D 공장 · 동적 대시보드",
+  "site_url": "https://adminmrobo.github.io/smart_factory_world/",
+  "site_title": "스마트 팩토리 World",
+  "languages": ["ko"],
+  "items": [
+    {"id": "cover", "role": "cover", "path": "cement/img/cement_cover.webp", "size": [960, 540], "characters": [], "robot": "none", "prompt_en": null, "source_of": null, "status": "ok"},
+    {"id": "sc_factory", "role": "scene", "path": "cement/img/factory.webp", "size": [960, 540], "characters": [], "robot": "none", "prompt_en": null, "source_of": null, "status": "ok"},
+    {"id": "sc_strength", "role": "scene", "path": "cement/img/strength.webp", "size": [960, 540], "characters": [], "robot": "none", "prompt_en": null, "source_of": null, "status": "ok"}
+  ],
+  "updated": "2026-11-13"
+}
