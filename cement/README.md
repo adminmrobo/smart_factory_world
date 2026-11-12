@@ -1,6 +1,6 @@
 > **스마트 팩토리 World · 시멘트 공장** — [World 목록](https://adminmrobo.github.io/smart_factory_world/) · 강의 [AI를 활용한 시멘트 공정 최적화](https://adminmrobo.github.io/AI_for_cement_produce/)
 >
-> **▶ 바로 보기:** https://adminmrobo.github.io/smart_factory_world/cement/
+> **▶ 바로 보기:** 업종 허브 https://adminmrobo.github.io/smart_factory_world/cement/ · 공장 World https://adminmrobo.github.io/smart_factory_world/cement/factory/ · 28일 타임머신 https://adminmrobo.github.io/smart_factory_world/cement/strength/
 
 # 시멘트 공장 World — 3D 공장 · 동적 대시보드 · 강의 공통 지도
 
@@ -15,11 +15,11 @@
 | 단계 | 산출물 | 상태 |
 |---|---|---|
 | 1 | `world.json` — 구역·5신호·데이터 매핑·에이전트 권한·규칙 | ✅ v0.1 |
-| 2 | `index.html` — 3D 디오라마 + 탭 1 「공장」(가마 37분 재생) | ✅ v0.2 |
+| 2 | `factory/index.html` — 3D 디오라마 + 탭 1 「공장」(가마 37분 재생) | ✅ v0.2 |
 | 3 | 탭 2 「병목 신호판」(5신호 · TOC · 시나리오 · AI 검증 실습) | ✅ v0.3 |
 | 4 | 탭 3 「결정 기록」(제안 → 관문 → 승인 · 관문 시험 · 결정 의자 · 하네스 4계층) | ✅ v0.4 |
 
-## index.html — 탭 1 「공장」
+## factory/ — 탭 1 「공장」
 
 단일 HTML 파일입니다(three.js는 CDN에서 읽음). `world.json`과 ch08 데이터·ch09 소프트센서 예측이 파일 안에 들어 있습니다.
 

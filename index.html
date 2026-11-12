@@ -31,6 +31,15 @@ table{width:100%;border-collapse:collapse;font-size:13px}
 td{padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
 td:first-child{color:var(--mute);white-space:nowrap}
 footer{color:var(--mute);font-size:12px;margin-top:36px}
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-bottom:1px solid var(--line)}
+.card.ind{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.card.ind .b{padding:12px 14px 14px}
+.ph{aspect-ratio:16/9;display:grid;place-items:center;background:repeating-linear-gradient(135deg,#10222a 0 14px,#132831 14px 28px);color:var(--mute);font-size:15px;font-weight:700;border-bottom:1px solid var(--line)}
+.chs{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.chs span{font-size:11px;border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:#c9dadd}
+.chs .off{color:var(--mute)}
+h2.sec{font-size:15px;margin:0 0 10px;color:var(--mute);font-weight:600}
+.grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))!important}
 a{color:#7fd6cd}
 </style>
 </head>
@@ -40,21 +49,64 @@ a{color:#7fd6cd}
   <p class="lead">공장 하나를 구역 · 데이터 · AI 에이전트 · 사람 · 규칙으로 정의하고, 그 위에서 AI가 제안하고 사람이 승인하는 흐름을 3D로 봅니다.</p>
   <div class="by">글 · 안상선 ((주)M-Robo 대표) · 모든 공장은 교육용 가상 공장입니다</div>
 
+  <h2 class="sec">업종</h2>
   <div class="grid">
-    <a class="card" href="cement/">
-      <span class="tag on">v0.4 · 공개</span>
-      <h2>시멘트 공장</h2>
-      <p>가마의 37분 지연, 정지와 재가동, 소프트센서 예측, 승인 기록을 재생하고, 병목 신호판에서 TOC 5단계를 바꿔 보고, AI 제안이 관문과 승인을 거쳐 결정이 되는 과정을 따라갑니다. 강의 「AI를 활용한 시멘트 공정 최적화」와 연결.</p>
+    <a class="card ind" href="cement/">
+      <img src="cement/img/cement_cover.webp" alt="3D 시멘트 공장" loading="lazy">
+      <div class="b">
+        <span class="tag on">공개 · 챕터 2</span>
+        <h2>시멘트 제조업</h2>
+        <p>원료·배합 → 가마(소성) → 냉각 → 분쇄 → 출하. 가마의 37분 지연, 병목, 결정 기록, 28일 품질 예측.</p>
+        <div class="chs"><span>① 공장 World</span><span>② 28일 타임머신</span><span class="off">③~⑤ 준비 중</span></div>
+      </div>
     </a>
-    <a class="card" href="cement/strength/">
-      <span class="tag on">v0.1 · 공개</span>
-      <h2>시멘트 · 28일 타임머신</h2>
-      <p>생산일에 AI가 말한 28일 강도를 28일 뒤 압축 시험으로 확인합니다. 출하·보류 판정, 처음 보는 가마의 치우침, 7일 강도 누수, SHAP. 강의 ch05와 연결.</p>
-    </a>
-    <div class="card soon">
-      <span class="tag off">준비 중</span>
-      <h2>다른 업종</h2>
-      <p>자동차부품 · 조선기자재 · 석유화학 · 비철금속 · 이차전지소재 · 플랜트기계 — 같은 틀로 추가합니다.</p>
+    <div class="card ind soon">
+      <div class="ph">자동차부품</div>
+      <div class="b">
+        <span class="tag off">준비 중</span>
+        <h2>자동차부품</h2>
+        <p>프레스 → 용접 → 도장 → 조립 → 검사</p>
+      </div>
+    </div>
+    <div class="card ind soon">
+      <div class="ph">조선기자재</div>
+      <div class="b">
+        <span class="tag off">준비 중</span>
+        <h2>조선기자재</h2>
+        <p>절단 → 가공 → 용접 → 도장 → 출하</p>
+      </div>
+    </div>
+    <div class="card ind soon">
+      <div class="ph">석유화학</div>
+      <div class="b">
+        <span class="tag off">준비 중</span>
+        <h2>석유화학</h2>
+        <p>원료 → 반응 → 분리 → 정제 → 저장</p>
+      </div>
+    </div>
+    <div class="card ind soon">
+      <div class="ph">비철금속</div>
+      <div class="b">
+        <span class="tag off">준비 중</span>
+        <h2>비철금속</h2>
+        <p>용해 → 주조 → 압연 → 열처리 → 검사</p>
+      </div>
+    </div>
+    <div class="card ind soon">
+      <div class="ph">이차전지소재</div>
+      <div class="b">
+        <span class="tag off">준비 중</span>
+        <h2>이차전지소재</h2>
+        <p>혼합 → 소성 → 분쇄 → 코팅 → 포장</p>
+      </div>
+    </div>
+    <div class="card ind soon">
+      <div class="ph">플랜트기계</div>
+      <div class="b">
+        <span class="tag off">준비 중</span>
+        <h2>플랜트기계</h2>
+        <p>설계 → 가공 → 조립 → 시운전 → 출하</p>
+      </div>
     </div>
   </div>
 
